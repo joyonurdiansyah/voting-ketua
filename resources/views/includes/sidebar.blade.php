@@ -2,11 +2,10 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('app.dashboard') }}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <img src="{{ asset('assets/img/voting.gif') }}" alt="VoteGo Logo" class="mx-2" style="width: 30px;">
+        <div class="sidebar-brand-text mx-3">VoteGo</div>
     </a>
+    
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -27,6 +26,13 @@
         </li>
     @endcan
 
+    @can('voter-view')
+        <li class="nav-item {{ request()->is('app/voter*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('app.voter.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Voter</span></a>
+        </li>
+    @endcan
 
     @canany(['user-view', 'role-view'])
         <li class="nav-item {{ request()->is('app/users*') || request()->is('app/roles*') ? 'active' : '' }}">
@@ -56,15 +62,6 @@
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-
-    <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        <img class="sidebar-card-illustration mb-2" src="{{ asset('assets/img/undraw_rocket.svg') }}" alt="...">
-        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components,
-            and more!</p>
-        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
-            Pro!</a>
     </div>
 
 </ul>

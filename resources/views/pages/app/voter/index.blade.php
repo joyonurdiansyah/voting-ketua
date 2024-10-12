@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Candidate')
+@section('title', 'voter')
 
 @section('content')
     <div class="row">
 
-        @can('candidate-create')
+        @can('voter-create')
             <div class="col-md-12">
-                <a href="{{ route('app.candidate.create') }}" class="btn btn-primary mb-3">Add Candidate</a>
+                <a href="{{ route('app.voter.create') }}" class="btn btn-primary mb-3">Add Voter</a>
             </div>
         @endcan
 
@@ -18,7 +18,7 @@
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Candidate</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Voter</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,41 +26,39 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Image</th>
-                                    <th>Chairman</th>
-                                    <th>Vice Chairman</th>
-                                    <th>Vision</th>
-                                    <th>Mission</th>
-                                    <th>Sort Order</th>
-                                    <th>Voting Count</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($candidates as $candidate)
+                                @foreach ($voters as $voter)
                                     <tr>
-                                        <td>{{ $candidate->name }}</td>
+                                        <td>{{ $voter->name }}</td>
+                                        <td>{{ $voter->user->email }}</td>
                                         <td>
-                                            <img src="{{ asset('storage/' . $candidate->image) }}" alt={{ $candidate->name }} class="img-thumbnail" width="100">
+                                            @if ($voter->vote)
+                                                <span class="badge bg-success text-white">
+                                                    Already Voted
+                                                </span>
+                                            @else
+                                                <span class="badge bg-danger text-white">
+                                                    Not Voted
+                                                </span>
+                                            @endif
                                         </td>
-                                        <td>{{ $candidate->chairman }}</td>
-                                        <td>{{ $candidate->vice_chairman }}</td>
-                                        <td>{{ $candidate->vision }}</td>
-                                        <td>{{ $candidate->mission }}</td>
-                                        <td>{{ $candidate->sort_order }}</td>
-                                        <td>{{ $candidate->votes->count() }}</td>
                                         <td>
 
-                                            @can('candidate-update')
-                                                <a href="{{ route('app.candidate.edit', $candidate->id) }}"
+                                            @can('voter-update')
+                                                <a href="{{ route('app.voter.edit', $voter->id) }}"
                                                     class="btn btn-warning">Edit</a>
                                             @endcan
 
-                                            <a href="{{ route('app.candidate.show', $candidate->id) }}" class="btn btn-info">Show</a>
+                                            <a href="{{ route('app.voter.show', $voter->id) }}" class="btn btn-info">Show</a>
 
-                                            @can('candidate-delete')
-                                                <form action="{{ route('app.candidate.destroy', $candidate->id) }}" method="POST"
+                                            @can('voter-delete')
+                                                <form action="{{ route('app.voter.destroy', $voter->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
